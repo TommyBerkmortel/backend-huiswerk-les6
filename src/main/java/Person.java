@@ -14,6 +14,7 @@ public class Person {
     private List<Person> siblings;
     private List<Person> children;
     private List<Pet> pets;
+    private List<Person> grandChildren = new ArrayList<>();
 
 // constructor
 
@@ -65,9 +66,7 @@ public class Person {
         return father;
     }
 
-    public List<Person> getSiblings() {
-        return siblings;
-    }
+    public List<Person> getSiblings() {return siblings;}
 
     public List<Person> getChildren() {
         return children;
@@ -76,6 +75,8 @@ public class Person {
     public List<Pet> getPets() {
         return pets;
     }
+
+    public List<Person> getGrandChildren() {return grandChildren;}
 
 // setters
 
@@ -119,22 +120,44 @@ public class Person {
         this.pets = pets;
     }
 
-    public void addParents(Person father, Person mother, Person child) {
-        child.setMother(mother);
-        child.setFather(father);
-        addChild(mother, child);
-        addChild(father, child);
+    public void setGrandChildren(List<Person> grandChildren) {
+        this.grandChildren = grandChildren;
     }
 
-    public void addChild(Person parent, Person child) {
-        List<Person> children = new ArrayList<>();
-        if (parent.getChildren()!= null) {
-            for (Person c : parent.getChildren()) {
-                children.add(child);
-            }
+    public void addParents(Person father, Person mother) {
+        this.setMother(mother);
+        this.setFather(father);
+        mother.addChild(this);
+        father.addChild(this);
+    }
+
+    public void addChild(Person child) {
+        if (children == null) {
+            children = new ArrayList<>();
+            children.add(child);
         } else {
             children.add(child);
         }
-        parent.setChildren(children);
+    };
+
+    public void addPet(Pet pet) {
+        pet.setOwner(this);
+        if (pets == null) {
+            pets = new ArrayList<>();
+            pets.add(pet);
+        } else {
+            pets.add(pet);
+        }
+    }
+
+    public void addSibling(Person sibling) {
+        if (siblings == null) {
+            siblings = new ArrayList<>();
+            siblings.add(sibling);
+        } else {
+            siblings.add(sibling);
+        }
     }
 }
+
+
